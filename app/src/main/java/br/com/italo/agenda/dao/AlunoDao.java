@@ -164,7 +164,11 @@ public class AlunoDao extends SQLiteOpenHelper{
 
         for (Aluno aluno:alunos) {
             if (existe(aluno)){
-                alterar(aluno);
+                if (aluno.estadoDesativado()){
+                    deleta(aluno);
+                }else if (!aluno.estadoDesativado()){
+                    alterar(aluno);
+                }
             }else {
                 insere(aluno);
             }

@@ -27,26 +27,29 @@ import java.util.List;
 
 import br.com.italo.agenda.adapter.AlunosAdapter;
 import br.com.italo.agenda.dao.AlunoDao;
-import br.com.italo.agenda.dto.AlunosSync;
 import br.com.italo.agenda.event.AtualizarListaAlunoEvent;
 import br.com.italo.agenda.modelo.Aluno;
 import br.com.italo.agenda.retrofit.RetrofitInicializador;
+import br.com.italo.agenda.sinc.AlunoSincronizador;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ListaAlunosActivity extends AppCompatActivity {
 
+    private final AlunoSincronizador sincronizador = new AlunoSincronizador(this);
     private ListView listaAluno;
     private SwipeRefreshLayout swipe;
+    private EventBus eventBus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_alunos);
 
-        EventBus eventBus = EventBus.getDefault();
+        eventBus = EventBus.getDefault();
         eventBus.register(this);
+
 
 
 
@@ -56,7 +59,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
          swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
              @Override
              public void onRefresh() {
-                 buscaAlunos();
+                 sincronizador.buscaAlunos();
              }
          });
 
@@ -85,12 +88,13 @@ public class ListaAlunosActivity extends AppCompatActivity {
         });
 
         registerForContextMenu(listaAluno);
-        buscaAlunos();
+        sincronizador.buscaAlunos();
 
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void atualizaListaAlunoEvent(AtualizarListaAlunoEvent event){
+    public void AtualizarListaAlunoEvent(AtualizarListaAlunoEvent event){
+        if (swipe.isRefreshing()) swipe.setRefreshing(false);
         carregaLista();
     }
 
@@ -139,29 +143,19 @@ public class ListaAlunosActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         carregaLista();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+    }
+
     private void buscaAlunos() {
-        Call<AlunosSync> call = new RetrofitInicializador().getAlunoService().lista();
 
-        call.enqueue(new Callback<AlunosSync>() {
-            @Override
-            public void onResponse(Call<AlunosSync> call, Response<AlunosSync> response) {
-                AlunosSync alunoSync = response.body();
-                AlunoDao dao = new AlunoDao(ListaAlunosActivity.this);
-                dao.sincroniza(alunoSync.getAlunos());
-                dao.close();
-                carregaLista();
-                swipe.setRefreshing(false);
-            }
-
-            @Override
-            public void onFailure(Call<AlunosSync> call, Throwable t) {
-                Log.e("onFailure chamado", t.getMessage());
-                swipe.setRefreshing(false);
-            }
-        });
+        sincronizador.buscaAlunos();
     }
 
     @Override

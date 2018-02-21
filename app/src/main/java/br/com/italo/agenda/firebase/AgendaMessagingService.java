@@ -32,7 +32,7 @@ public class AgendaMessagingService extends FirebaseMessagingService {
     }
 
     private void converteParaAluno(Map<String, String> mensagem) {
-        String chaveDeAcesso = "AlunoSync";
+        String chaveDeAcesso = "alunoSync";
         if (mensagem.containsKey(chaveDeAcesso)){
             String json = mensagem.get(chaveDeAcesso);
             ObjectMapper mapper = new ObjectMapper();
