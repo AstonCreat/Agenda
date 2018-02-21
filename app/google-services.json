@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "740299297284",
+    "firebase_url": "https://agenda-sync-131f9.firebaseio.com",
+    "project_id": "agenda-sync-131f9",
+    "storage_bucket": "agenda-sync-131f9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:740299297284:android:6adb681e1d2a5bba",
+        "android_client_info": {
+          "package_name": "br.com.italo.agenda"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "740299297284-2pphuivmf7rn2v3errgpdvr7mi4hsqe1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.italo.agenda",
+            "certificate_hash": "86a2d38b0d148a9b698c24cf10b30593e05bd3b7"
+          }
+        },
+        {
+          "client_id": "740299297284-79bc4g2rvavhdedrsr7dfegj5vpa9pbv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3yJItVc3Ebq0W5MbV86fLb8RVRfLxYvo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "740299297284-79bc4g2rvavhdedrsr7dfegj5vpa9pbv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

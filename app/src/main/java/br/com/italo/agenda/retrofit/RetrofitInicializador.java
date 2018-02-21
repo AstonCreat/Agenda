@@ -2,6 +2,7 @@ package br.com.italo.agenda.retrofit;
 
 import br.com.italo.agenda.modelo.Aluno;
 import br.com.italo.agenda.services.AlunoService;
+import br.com.italo.agenda.services.DispositivoService;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -23,7 +24,7 @@ public class RetrofitInicializador {
         OkHttpClient.Builder client = new OkHttpClient.Builder();
         client.addInterceptor(interceptor);
 
-        retrofit = new Retrofit.Builder().baseUrl("http://192.168.1.104:8080/api/")
+        retrofit = new Retrofit.Builder().baseUrl("http://192.168.0.142:8080/api/")
                     .addConverterFactory(JacksonConverterFactory.create())
                     .client(client.build())
                     .build();
@@ -32,5 +33,9 @@ public class RetrofitInicializador {
     public AlunoService getAlunoService() {
 
         return retrofit.create(AlunoService.class);
+    }
+
+    public DispositivoService getDispositivoService() {
+        return  retrofit.create(DispositivoService.class);
     }
 }
